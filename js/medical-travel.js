@@ -99,6 +99,33 @@ const MEDICAL_DATASETS = {
       ],
     },
   },
+
+  // Edge case: one table has far more rows than any other, on purpose.
+  // This is what to point at in the video when explaining the
+  // "pages break between tables, not mid-table" limitation noted in
+  // the README — a single oversized table can overflow its page.
+  sample4: {
+    label: 'Sample 4 — stress test: 15 rows in one table',
+    claimNo: '20077461',
+    workerAppId: '944012',
+    submittedAt: 'September 1, 2026 10:15',
+    name: 'Jordan Lee',
+    privacyChecked: true,
+    tables: {
+      prescriptionDrugs: Array.from({ length: 15 }, (_, i) => [
+        `Refill #${i + 1}`,
+        `Jan ${i + 1}, 2026`,
+        `Jan ${i + 2}, 2026`,
+        'Dr. Best',
+        `$${(12 + i).toFixed(2)}`,
+      ]),
+      otcDrugs: [],
+      bandages: [],
+      parking: [],
+      mileage: [],
+      busTaxi: [],
+    },
+  },
 };
 
 function buildMedicalHeader(data) {

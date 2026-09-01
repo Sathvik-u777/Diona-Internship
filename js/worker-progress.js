@@ -101,6 +101,30 @@ const WORKER_DATASETS = {
       'I have attached my employer\u2019s modified-duty agreement separately and would appreciate confirmation ' +
       'that it has been received, since my last two submissions did not show up in the online portal.',
   },
+
+  // Edge case: a blank/incomplete submission — no name, no status picked
+  // anywhere, every free-text field empty. Point at this one in the
+  // video to show the form doesn't break (no "undefined" text, no
+  // crash) when the underlying data has nothing in it.
+  sample4: {
+    label: 'Sample 4 — edge case: mostly blank submission',
+    claimNo: '',
+    workerAppId: '',
+    submittedAt: '',
+    name: '',
+    returnToWork: { status: '', returnedDate: '' },
+    working: { mode: '', otherText: '' },
+    goingText: '',
+    expectedReturnDate: '',
+    concernsText: '',
+    lastContact: { name: '', date: '' },
+    recovery: { status: '', comments: '' },
+    painScale: null,
+    medicalTreatment: { receiving: false, providerType: '', last: { date: '', name: '' }, next: '', frequency: '' },
+    homeExercises: { doing: false, list: '' },
+    medication: { taking: false, name: '' },
+    otherInfo: '',
+  },
 };
 
 // ---------------------------------------------------------------
