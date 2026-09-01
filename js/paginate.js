@@ -36,36 +36,59 @@ function paginateDocument({
   hidden.style.visibility = 'hidden';
   document.body.appendChild(hidden);
 
-  // Full page height (comes from the CSS min-height: 297mm on .page)
-  const PAGE_HEIGHT = hidden.getBoundingClientRect().height;
+// Full page height, including the page's padding.
+const PAGE_HEIGHT = hidden.getBoundingClientRect().height;
 
-  // Header height (as it will really render, page 1 only)
-  const headerEl = buildHeader();
-  hidden.appendChild(headerEl);
-  const headerHeight = headerEl.getBoundingClientRect().height;
-  hidden.removeChild(headerEl);
+// The CSS page has 12mm top padding and 16mm bottom padding.
+// Remove those areas from the usable content height.
+const styles = getComputedStyle(hidden);
+const paddingTop = parseFloat(styles.paddingTop) || 0;
+const paddingBottom = parseFloat(styles.paddingBottom) || 0;
 
-  // Footer height (same on every page, so measure once with placeholder numbers)
-  const sampleFooter = buildFooter(1, 1);
-  hidden.appendChild(sampleFooter);
-  const footerHeight = sampleFooter.getBoundingClientRect().height;
-  hidden.removeChild(sampleFooter);
+const CONTENT_HEIGHT = PAGE_HEIGHT - paddingTop - paddingBottom;
 
-  // A little breathing room so text doesn't visually touch the footer rule
-  const SAFETY = 48;
-  const firstPageBudget = PAGE_HEIGHT - headerHeight - footerHeight - SAFETY;
-  const otherPageBudget = PAGE_HEIGHT - footerHeight - SAFETY;
+// Header height (page 1 only)
+const headerEl = buildHeader();
+hidden.appendChild(headerEl);
+const headerHeight = headerEl.getBoundingClientRect().height;
+hidden.removeChild(headerEl);
+
+// Footer height
+const sampleFooter = buildFooter(1, 1);
+hidden.appendChild(sampleFooter);
+const footerHeight = sampleFooter.getBoundingClientRect().height;
+hidden.removeChild(sampleFooter);
+
+// Safety gap so content doesn't touch the footer.
+const SAFETY = 48;
+
+const firstPageBudget =
+  CONTENT_HEIGHT - headerHeight - footerHeight - SAFETY;
+
+const otherPageBudget =
+  CONTENT_HEIGHT - footerHeight - SAFETY;
+
+
 
   // ---- 2. Measure every block's real rendered height ----
   const measureWrap = document.createElement('div');
   measureWrap.className = 'page-content';
   hidden.appendChild(measureWrap);
   const heights = blocks.map((block) => {
-    measureWrap.appendChild(block);
-    const h = block.getBoundingClientRect().height;
-    measureWrap.removeChild(block);
-    return h;
-  });
+  measureWrap.appendChild(block);
+
+  const rect = block.getBoundingClientRect();
+  const styles = getComputedStyle(block);
+
+  const marginTop = parseFloat(styles.marginTop) || 0;
+  const marginBottom = parseFloat(styles.marginBottom) || 0;
+
+  const h = rect.height + marginTop + marginBottom;
+
+  measureWrap.removeChild(block);
+  return h;
+});
+
   hidden.remove();
 
   // ---- 3. Pack blocks onto pages ----
