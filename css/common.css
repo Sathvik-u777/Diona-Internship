@@ -248,16 +248,57 @@ html, body {
 
 /* ---------- print ---------- */
 @media print {
-  .toolbar { display: none !important; }
-  body, #pages { background: #fff; padding: 0; gap: 0; }
-  .page {
-    box-shadow: none;
+  .toolbar {
+    display: none !important;
+  }
+
+  html,
+  body {
     margin: 0;
-    width: auto;
-    min-height: auto;
+    padding: 0;
+    background: #fff;
+  }
+
+  #pages {
+    display: block;
+    margin: 0;
+    padding: 0;
+    background: #fff;
+  }
+
+  .page {
+    width: 210mm;
+    height: 297mm;
+    min-height: 297mm;
+    max-height: 297mm;
+
+    margin: 0;
+    padding: 12mm 14mm 16mm 14mm;
+
+    box-sizing: border-box;
+    box-shadow: none;
+
+    display: flex;
+    flex-direction: column;
+
+    break-after: page;
     page-break-after: always;
   }
-  .page:last-child { page-break-after: auto; }
+
+  .page:last-child {
+    break-after: auto;
+    page-break-after: auto;
+  }
+
+  .page-content {
+    flex: 1 1 auto;
+    min-height: 0;
+  }
+}
+
+@page {
+  size: A4 portrait;
+  margin: 0;
 }
 
 @page {
