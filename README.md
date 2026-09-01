@@ -1,4 +1,4 @@
-# WCB Form Replicas — Worker Progress Report & Medical/Travel Expense Request
+# Diona-Internship Assignment — Worker Progress Report & Medical/Travel Expense Request
 
 Plain HTML/CSS/JavaScript (no build step, no framework) recreation of the two
 WCB Manitoba PDFs, driven entirely by JS data objects so the page can show
