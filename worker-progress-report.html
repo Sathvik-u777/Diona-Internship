@@ -1,0 +1,25 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8" />
+<title>Worker Progress Report</title>
+<meta name="viewport" content="width=device-width, initial-scale=1" />
+<link rel="stylesheet" href="css/common.css" />
+</head>
+<body>
+
+  <div class="toolbar">
+    <a href="index.html" style="color:#fff;">&larr; Back</a>
+    <label for="dataset-select">Dataset:</label>
+    <select id="dataset-select"></select>
+    <button id="print-btn">Print / Save as PDF</button>
+    <span class="hint">Switching the dataset re-renders every field, table row and the page count below.</span>
+  </div>
+
+  <div id="pages"></div>
+
+  <script src="js/ui-helpers.js"></script>
+  <script src="js/paginate.js"></script>
+  <script src="js/worker-progress.js"></script>
+</body>
+</html>
